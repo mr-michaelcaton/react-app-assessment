@@ -17,8 +17,6 @@ function ActivityList({ activities }) {
     return { key: index, time: time, description: description };
   });
 
-  console.log(list);
-
   return (
     <div className="container">
       <div className="row">
@@ -26,11 +24,15 @@ function ActivityList({ activities }) {
           className="col-6"
           style={{ border: "1px solid #000", textAlign: "left" }}
         >
-          {list.forEach((listItem) => {
-            <Activity
-              time={listItem.time}
-              description={listItem.description}
-            />;
+          {list.map((listItem, i) => {
+            // needed to return here
+            return (
+              <Activity
+                key={i}
+                time={listItem.time}
+                description={listItem.description}
+              />
+            );
           })}
         </div>
       </div>

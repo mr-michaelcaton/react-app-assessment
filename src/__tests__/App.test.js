@@ -63,16 +63,18 @@ test("Daily activities are present in the ActivityList component", () => {
     { time: "10:00 pm", description: "bedtime" },
   ];
   
-  const { getByText } = render(<ActivityList activities={activities} />);
-  
+  const { getAllByText } = render(<ActivityList activities={activities} />);
+
   activities.forEach((activity) => {
-    const time = getByText(activity.time);
-    const description = getByText(activity.description);
+    // Use a text matcher function to find the activity time and description
+    const hasTimeAndDescription = getAllByText((_content, element) => {
+      // becasue the text rendered in <Activity /> has shape <div>8:00 am wake up </div>, the getByText('8:00 am') function will fail
+      const hasTime = element.textContent.includes(activity.time);
+      const hasDescription = element.textContent.includes(activity.description);
 
-/*     console.log(`${time} ${description}`) */
-console.log(activity);
+      return hasTime && hasDescription;
+    });
 
-    expect(time).toBeTruthy();
-    expect(description).toBeTruthy();
+    expect(hasTimeAndDescription).toBeTruthy();
   });
 });
